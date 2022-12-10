@@ -1,0 +1,11 @@
+{
+  "name": "curso-backend",
+  "version": "1.0.0",
+  "description": "desafios y entregables del curso de backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emiliano Quercia",
+  "license": "ISC"
+}

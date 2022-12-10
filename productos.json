@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "arroz",
+    "description": "largo fino",
+    "price": 110,
+    "thumbnail": "sin imagen",
+    "code": "ar01",
+    "stock": 35
+  },
+  {
+    "id": 2,
+    "title": "fideos",
+    "description": "spaghetti",
+    "price": 95,
+    "thumbnail": "sin imagen",
+    "code": "fi01",
+    "stock": 40
+  },
+  {
+    "id": 3,
+    "title": "yerba",
+    "description": "compuesta",
+    "price": 250,
+    "thumbnail": "sin imagen",
+    "code": "ye01",
+    "stock": 25
+  },
+  {
+    "id": 4,
+    "title": "leche",
+    "description": "entera",
+    "price": 150,
+    "thumbnail": "sin imagen",
+    "code": "le01",
+    "stock": 18
+  },
+  {
+    "id": 5,
+    "title": "Galletitas",
+    "description": "Surtidas",
+    "price": 190,
+    "thumbnail": "sin imagen",
+    "code": "ga01",
+    "stock": 15
+  }
+]
