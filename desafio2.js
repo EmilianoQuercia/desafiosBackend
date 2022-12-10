@@ -131,7 +131,7 @@ class ProductManager {
 
 const producto1 = {
     title:"tomate",
-    description:"redondo",
+    description:"perita",
     price:115,
     thumbnail:"sin imagen",
     code:"to01",
