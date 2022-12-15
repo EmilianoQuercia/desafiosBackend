@@ -1,7 +1,7 @@
-const fs = require('fs');
+// const fs = require('fs');
+import fs from 'fs'
 
-
-class ProductManager {
+ class ProductManager {
     constructor(path){
         this.path = path 
         this.products = []
@@ -146,7 +146,7 @@ const producto2 = {
     stock:35
 }
 
-const product = new ProductManager('./productos.json')
+const product = new ProductManager('../productos.json')
 
 const run = async () =>{
 ///MUESTRAS LOS PRODUCTOS DE LA BASE DE DATOS
@@ -157,15 +157,17 @@ const run = async () =>{
     // await product.addProduct(producto2)
 
 ///BUSCA UN PRODUCTO POR ID Y LO MUESTRA
-    // const byId = await product.getProductById(3)
-    // console.log('Product by ID', byId )
+    const byId = await product.getProductById(3)
+    console.log('Product by ID', byId )
 
 ///ELIMINA UN PRODUCTO POR ID
     // await product.deleteProductById(7)
 
 ///ACTUALIZA UN PRODUCTO POR ID
-    // const update = await product.updateProduct({id: 6, title:"papa", description:'blanca'})
-    // console.log('Actualizado',update)
+    const update = await product.updateProduct({id: 6, title:"papa", description:'blanca'})
+    console.log('Actualizado',update)
 }
 
-run()
+// run()
+
+export default ProductManager;
