@@ -18,8 +18,8 @@ app.get('/products',async (req,res)=>{
 
     if (limit){
         const productLimit = allProduct.splice(0,Number(limit))
-        res.send(productLimit)
-        return
+        return res.send(productLimit)
+        
     }
     res.send(allProduct)
 

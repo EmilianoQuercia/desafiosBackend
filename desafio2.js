@@ -30,7 +30,8 @@ class ProductManager {
 
                     const cod = this.products.find(p=> p.code === prod.code)
                     if (cod === undefined){
-                        this.products.push({id:this.products.length + 1, ...prod} )
+                        const lastId = this.products.reduce((max,prod)=>(prod.id>max?prod.id:max),0)
+                        this.products.push({id:lastId + 1, ...prod} )
                     }else{
                         console.log(`Su Producto ${prod.title}, tiene un codigo que ya existe: ${prod.code}`);
                         return
@@ -153,7 +154,7 @@ const run = async () =>{
     console.log(await product.getProduct())
 
 ///CARGA DOS PRODUCTOS A LA BASE DE DATOS
-    // await product.addProduct(producto1)
+    await product.addProduct(producto1)
     // await product.addProduct(producto2)
 
 ///BUSCA UN PRODUCTO POR ID Y LO MUESTRA
@@ -161,7 +162,7 @@ const run = async () =>{
     // console.log('Product by ID', byId )
 
 ///ELIMINA UN PRODUCTO POR ID
-    // await product.deleteProductById(7)
+    // await product.deleteProductById(12)
 
 ///ACTUALIZA UN PRODUCTO POR ID
     // const update = await product.updateProduct({id: 6, title:"papa", description:'blanca'})
