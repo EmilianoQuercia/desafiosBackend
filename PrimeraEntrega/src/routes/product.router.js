@@ -58,7 +58,7 @@ router.delete('/:pid', async(req,res)=>{
     const deleteProduct = await products.deleteProductById(id)
 
     res.send({
-        status: 'ok',
+        status: "ok",
         message: `Producto con ID:${id}  eliminado`
     })
 })
