@@ -1,1 +1,123 @@
-[{"id":1,"title":"arroz","description":"largo fino","price":110,"thumbnail":"sin imagen","code":"ar01","stock":35,"status":true,"category":"almacen"},{"id":2,"title":"fideos","description":"spaghetti","price":95,"thumbnail":"sin imagen","code":"fi01","stock":40,"status":true,"category":"almacen"},{"id":3,"title":"yerba","description":"compuesta","price":250,"thumbnail":"sin imagen","code":"ye01","stock":25,"status":true,"category":"almacen"},{"id":4,"title":"leche","description":"entera","price":150,"thumbnail":"sin imagen","code":"le01","stock":18,"status":true,"category":"lacteos"},{"id":5,"title":"Galletitas","description":"Surtidas","price":190,"thumbnail":"sin imagen","code":"ga01","stock":15,"status":true,"category":"almacen"},{"id":6,"title":"Pure de Tomate","description":"triturado","price":65,"thumbnail":"sin imagen","code":"pt01","stock":10,"status":true,"category":"almacen"},{"id":7,"title":"Palmitos","description":"Enteros","price":230,"thumbnail":"sin imagen","code":"pa01","stock":18,"status":true,"category":"almacen"},{"id":8,"title":"Arvejas","description":"Naturales","price":110,"thumbnail":"sin imagen","code":"av01","stock":22,"status":true,"category":"almacen"},{"id":9,"title":"Harina","description":"leudante","price":95,"thumbnail":"sin imagen","code":"Ha01","stock":42,"status":true,"category":"almacen"},{"id":10,"title":"Polenta","description":"Instantanea","price":175,"thumbnail":"sin imagen","code":"po01","stock":28,"status":true,"category":"almacen"},{"id":11,"title":"Lentejas","description":"enteras","price":180,"thumbnail":"sin imagen","code":"lj01","stock":26,"status":true,"category":"almacen"}]
+[
+  {
+    "id": 1,
+    "title": "arroz",
+    "description": "largo fino",
+    "price": 110,
+    "thumbnail": "sin imagen",
+    "code": "ar01",
+    "stock": 35,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 2,
+    "title": "fideos",
+    "description": "spaghetti",
+    "price": 95,
+    "thumbnail": "sin imagen",
+    "code": "fi01",
+    "stock": 40,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 3,
+    "title": "yerba",
+    "description": "compuesta",
+    "price": 250,
+    "thumbnail": "sin imagen",
+    "code": "ye01",
+    "stock": 25,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 4,
+    "title": "leche",
+    "description": "entera",
+    "price": 150,
+    "thumbnail": "sin imagen",
+    "code": "le01",
+    "stock": 18,
+    "status": true,
+    "category": "lacteos"
+  },
+  {
+    "id": 5,
+    "title": "Galletitas",
+    "description": "Surtidas",
+    "price": 190,
+    "thumbnail": "sin imagen",
+    "code": "ga01",
+    "stock": 15,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 6,
+    "title": "Pure de Tomate",
+    "description": "triturado",
+    "price": 65,
+    "thumbnail": "sin imagen",
+    "code": "pt01",
+    "stock": 10,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 7,
+    "title": "Palmitos",
+    "description": "Enteros",
+    "price": 230,
+    "thumbnail": "sin imagen",
+    "code": "pa01",
+    "stock": 18,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 8,
+    "title": "Arvejas",
+    "description": "Naturales",
+    "price": 110,
+    "thumbnail": "sin imagen",
+    "code": "av01",
+    "stock": 22,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 9,
+    "title": "Harina",
+    "description": "leudante",
+    "price": 95,
+    "thumbnail": "sin imagen",
+    "code": "Ha01",
+    "stock": 42,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 10,
+    "title": "Polenta",
+    "description": "Instantanea",
+    "price": 175,
+    "thumbnail": "sin imagen",
+    "code": "po01",
+    "stock": 28,
+    "status": true,
+    "category": "almacen"
+  },
+  {
+    "id": 11,
+    "title": "Lentejas",
+    "description": "enteras",
+    "price": 180,
+    "thumbnail": "sin imagen",
+    "code": "lj01",
+    "stock": 26,
+    "status": true,
+    "category": "almacen"
+  }
+]
