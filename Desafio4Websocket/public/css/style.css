@@ -1,0 +1,24 @@
+.tituloHome{
+    background-color: #555;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+}
+.containerCard{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.containerProductos{
+    display: flex;
+}
+.containerForm{
+    width: 100%;
+    margin: 30px;
+}
+.tituloInputs{
+    background-color: #777;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}

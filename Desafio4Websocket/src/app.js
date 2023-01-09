@@ -21,7 +21,7 @@ const socketServer = new Server(httpServer)
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-app.use('/pepe', viewRouter)
+app.use('/', viewRouter)
 
 
 socketServer.on('connection',(socket)=>{
