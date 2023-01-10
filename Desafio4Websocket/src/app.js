@@ -26,5 +26,18 @@ app.use('/', viewRouter)
 
 socketServer.on('connection',(socket)=>{
     console.log('Nuevo cliente conectado')
+    // socket.on("message", (data) => {
+    //     console.log(data);
+    //   });
+    socket.on("newProduct", (data) => {
+    console.log(data);
+
+    socketServer.emit("producto-nuevo", data);
+    });
+
+    socket.on('deleteProduct', (data)=>{
+        console.log(data)  
+    socketServer.emit('productoABorrar', data)  
+    })
 })
 

@@ -7,13 +7,15 @@
 .containerCard{
     display: flex;
     flex-wrap: wrap;
+    /* margin-left: 20px; */
+    justify-content: center;
 }
 
 .containerProductos{
     display: flex;
 }
 .containerForm{
-    width: 100%;
+    width: 80%;
     margin: 30px;
 }
 .tituloInputs{
