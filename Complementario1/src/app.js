@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }))
 
 //mongoose
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb+srv://emilianoquercia:MongoDb1986@cluster0.zfmpslu.mongodb.net/ecommerce?retryWrites=true&w=majority', (err)=>{
+mongoose.connect(`mongodb+srv://${process.env.USER_MONGO}:${process.env.PASSWORD_MONGO}@cluster0.zfmpslu.mongodb.net/${process.env.DB_MONGO}?retryWrites=true&w=majority`, (err)=>{
     if(err){
         console.log('No se puede conectar a la base de dato ', err.message)
         process.exit();
