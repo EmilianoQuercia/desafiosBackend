@@ -74,7 +74,6 @@ class CartManager{
             if (cartId){
                 const findproduct = cartId.products
                 const productCart = findproduct.findIndex(p=> p.id === product._id)
-                console.log(productCart)
                 if (productCart !== -1){
                     findproduct[productCart].quantity += 1
                     console.log(findproduct)
@@ -104,7 +103,6 @@ class CartManager{
             if (cartId){
                 const findproduct = cartId.products
                 const productCart = findproduct.findIndex(p=> p.id === product._id)
-                console.log(productCart)
                 if (productCart !== -1){
                     if (findproduct[productCart].quantity>1){
                     findproduct[productCart].quantity -= 1

@@ -6,6 +6,10 @@ import productRouter from "./routes/product.routes.js"
 import cartRouter from "./routes/cart.routes.js";
 import chatRouter from "./routes/chat.routes.js";
 
+import * as dotenv from "dotenv"
+import axios from "axios";
+dotenv.config();
+
 const app = express();
 const PORT = 8080
 
@@ -37,8 +41,8 @@ socketIo.on('connection', (socket) => {
     console.log('Nuevo Usuario conectado')
 
     socket.on('mensaje', (data)=>{
-        console.log(data)
         socketIo.emit('mensajeServidor', data)
+        axios.post('http://localhost:8080/chat', data)
     })
 
     socket.on('escribiendo', (data)=>{

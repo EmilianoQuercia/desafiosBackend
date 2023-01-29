@@ -1,30 +1,44 @@
 
+
 const socket = io();
 
 //Elementos del Dom
 let message = document.getElementById('message');
-let userName = document.getElementById('userName');
+let user = document.getElementById('userName');
 let btn = document.getElementById('send');
 let output = document.getElementById('output');
 let actions = document.getElementById('actions');
 
+const getMessage = async () =>{
+    const response = await fetch('http://localhost:8080/chat/messages')
+    const data = await response.json()
+    const message = data.map( msj => (
+        output.innerHTML += `<p>
+        <strong>${msj.user}</strong>: ${msj.message} 
+     </p>`
+    ))
+}
+getMessage()
+
+
+
 btn.addEventListener('click', () => {
     socket.emit('mensaje', {
         message: message.value,
-        userName: userName.value
+        user: user.value
     })
-    
+    message.value = ''
 })
 
 
 message.addEventListener('keypress', ()=>{
-    socket.emit('escribiendo', userName.value)
+    socket.emit('escribiendo', user.value)
 })
 
 socket.on('mensajeServidor', (data)=>{
     actions.innerHTML = ''
     output.innerHTML += `<p>
-       <strong>${data.userName}</strong>: ${data.message} 
+       <strong>${data.user}</strong>: ${data.message} 
     </p>`
 })
 
