@@ -4,10 +4,31 @@ import { cartModel } from "../models/cart.model.js";
 
 class ProductManger{
 
-    async getProduct(){
+    async getProduct(queryList){
+        const {query, sort} = queryList
+        
         try{
-            const products = await productModel.find();
-            return products; 
+            if (queryList){
+                const productsParams = await productModel.paginate(query?{category: query}:{},{limit:queryList.limit || 10, page:queryList.page || 1});
+                if (sort === 'asc'){
+                    console.log('Entre al IF');
+                    const productsParamas = await productModel.aggregate([
+                        {
+                            $sort: {price :1}
+                        }
+                    ])
+                    return productsParamas
+                }
+                if (sort === 'desc'){
+                    const productsParamas = await productModel.aggregate([
+                        {
+                            $sort: {price:-1}
+                        }
+                    ])
+                    return productsParamas
+                }
+                 return productsParams; 
+            }
         }
         catch(err){
             throw err; 

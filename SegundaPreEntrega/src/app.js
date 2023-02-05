@@ -2,6 +2,8 @@ import  express  from "express";
 import { engine } from "express-handlebars";
 import mongoose from "mongoose";
 
+import productRoutes from './routes/product.routes.js'
+
 
 import * as dotenv from "dotenv"
 dotenv.config();
@@ -29,3 +31,5 @@ mongoose.connect(`mongodb+srv://${process.env.USER_MONGO}:${process.env.PASSWORD
         console.log('Servidor Mongo levantado con exito')
     }
 })
+
+app.use('/products', productRoutes)
