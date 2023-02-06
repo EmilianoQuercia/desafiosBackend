@@ -3,6 +3,7 @@ import { engine } from "express-handlebars";
 import mongoose from "mongoose";
 
 import productRoutes from './routes/product.routes.js'
+import cartRoutes from './routes/cart.routes.js'
 
 
 import * as dotenv from "dotenv"
@@ -32,4 +33,5 @@ mongoose.connect(`mongodb+srv://${process.env.USER_MONGO}:${process.env.PASSWORD
     }
 })
 
-app.use('/products', productRoutes)
+app.use('/api/products', productRoutes)
+app.use('/api/carts', cartRoutes)

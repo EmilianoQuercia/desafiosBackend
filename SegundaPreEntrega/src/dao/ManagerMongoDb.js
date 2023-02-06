@@ -2,6 +2,7 @@ import { productModel } from "../models/product.model.js";
 import { cartModel } from "../models/cart.model.js";
 
 
+
 class ProductManger{
 
     async getProduct(queryList){
@@ -11,7 +12,6 @@ class ProductManger{
             if (queryList){
                 const productsParams = await productModel.paginate(query?{category: query}:{},{limit:queryList.limit || 10, page:queryList.page || 1});
                 if (sort === 'asc'){
-                    console.log('Entre al IF');
                     const productsParamas = await productModel.aggregate([
                         {
                             $sort: {price :1}
@@ -71,7 +71,7 @@ class CartManager{
     async getCart(){
         try{
             const cart = await cartModel.find();
-            return cart;
+            return  JSON.stringify(cart, null, '\t');
         }
         catch (err) {
             throw err;
@@ -89,64 +89,42 @@ class CartManager{
         }
     }
 
-    async addProductToCart(id, product){
+    async addProductToCart(cid, pid, quantity){
         try{
-            const cartId = await cartModel.findById(id);
-            if (cartId){
-                const findproduct = cartId.products
-                const productCart = findproduct.findIndex(p=> p.id === product._id)
-                if (productCart !== -1){
-                    findproduct[productCart].quantity += 1
-                    console.log(findproduct)
-                    const update = {products: findproduct}
-                    const updateCart = await cartModel.findByIdAndUpdate(id,  update );
-                    return updateCart
-                }else{
-                    const productInCart = {
-                        id: product._id,
-                        title : product.title,
-                        quantity: 1
-                    }
-                const cart = { products: productInCart}
-                const updateCart = await cartModel.findByIdAndUpdate(id, {$push: cart});
-                return updateCart;
-                }
+            const cartId = await cartModel.findById(cid);
+            let productId =  cartId.products.find(p => p.product.toString() === pid.toString())
+            if (productId){
+               productId.quantity = quantity
+            }else{
+                cartId.products.push({product:pid, quantity:quantity});
             }
+            const cartUpdate = await cartModel.updateOne({_id: cid},cartId)
+            return cartUpdate
         }
         catch (err) {
             throw err;
         }
     }
 
-    async removeProductFromCart(id, product){
+    async removeProductFromCart(cid, pid){
         try{
-            const cartId = await cartModel.findById(id);
-            if (cartId){
+            const cartId = await cartModel.findById(cid);
                 const findproduct = cartId.products
-                const productCart = findproduct.findIndex(p=> p.id === product._id)
-                if (productCart !== -1){
-                    if (findproduct[productCart].quantity>1){
-                    findproduct[productCart].quantity -= 1
-                    const update = {products: findproduct}
-                    const updateCart = await cartModel.findByIdAndUpdate(id,  update );
-                    return updateCart
-                }else{
-                    const IndexProduct = findproduct.findIndex( prod => prod.id === product._id)
-                    findproduct.splice(IndexProduct,1)
-                    const update = {products: findproduct}
-                    const updateCart = await cartModel.findByIdAndUpdate(id, update );
-                    return updateCart
-                }
-            }
-        }
+                const productCart = findproduct.findIndex(p=> p.product.toString() === pid.toString())
+                
+                findproduct.splice(productCart,1)
+                const update = {products: findproduct}
+                const updateCart = await cartModel.findByIdAndUpdate(cid, update );
+                return updateCart
         }catch (err) {
             throw err;
         }
     }
 
-    async deleteCart(id){
+    async deleteAllProductCart(id){
         try {
-            const cart = await cartModel.findByIdAndDelete(id);
+            const deleteProduct = {products:[]}
+            const cart = await cartModel.findByIdAndUpdate(id, deleteProduct);
             return cart;
           } catch (err) {
             throw err;

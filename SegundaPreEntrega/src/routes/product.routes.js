@@ -6,8 +6,8 @@ const productManger = new ManagerMongoDb.ProductManger();
 
 router.get('/', async (req,res) => {
     const {limit, page, sort, query} = req.query
-    console.log(sort)
     let queryList = {limit, page, sort, query}
+    
     try{
         const products = await productManger.getProduct(queryList);
         // res.status(200).send(products)
