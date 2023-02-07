@@ -2,8 +2,10 @@ import  express  from "express";
 import { engine } from "express-handlebars";
 import mongoose from "mongoose";
 
+
 import productRoutes from './routes/product.routes.js'
 import cartRoutes from './routes/cart.routes.js'
+import viewsRoutes from './routes/views.routes.js'
 
 
 import * as dotenv from "dotenv"
@@ -16,6 +18,7 @@ app.engine('handlebars', engine())
 app.set('view engine', 'handlebars');
 app.set('views','./src/views');
 app.use(express.static('public'))
+
 
 const server = app.listen(PORT, () => { console.log(`Server listening on ${PORT}`)})
 
@@ -35,3 +38,4 @@ mongoose.connect(`mongodb+srv://${process.env.USER_MONGO}:${process.env.PASSWORD
 
 app.use('/api/products', productRoutes)
 app.use('/api/carts', cartRoutes)
+app.use('/api/viewProducts', viewsRoutes)
