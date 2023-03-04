@@ -78,6 +78,17 @@ class CartManager{
         }
     }
 
+    async getCartUser(id){
+        try{
+            const cart = await cartModel.find({user: id});
+            return  JSON.stringify(cart, null, '\t');
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    
+
     async createCart(cart){
         try{
             const newCart = new cartModel(cart);

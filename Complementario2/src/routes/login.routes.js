@@ -16,10 +16,11 @@ router.post('/user', passport.authenticate('login', {failureRedirect: '/faillogi
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
-        age: req.user.age
+        age: req.user.age,
+        id: req.user._id
     }
     req.session.admin = true;
-    return res.status(200).send({message:'success'})
+    return res.status(200).send({message:'success', user: req.session.user})
 })
 
 router.get('/faillogin', async (req, res) => {
@@ -41,6 +42,13 @@ router.get('/products', auth, async (req,res)=>{
         const userData = await registroModel.findOne({ email: req.session.user.email})
         const {firstName, lastName} = userData
         res.render('products',{firstName, lastName}) 
+    }
+})
+
+router.get('/user', auth, async (req, res) => {
+    if (await req.session.user){
+        const userData = await registroModel.findOne({ email: req.session.user.email})
+        res.send({user: userData})
     }
 })
 

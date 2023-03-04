@@ -11,7 +11,6 @@ elementExists('signup') &&
         const age = document.getElementById('age').value;
 
         const data = { firstName, lastName, email, password, age }
-        console.log(data)
 
         fetch('/api/registro', {
             method: 'POST',
@@ -19,33 +18,33 @@ elementExists('signup') &&
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(data)
-        }).then((data)=>{
+        }).then((data) => {
             const result = data.json();
             console.log(result);
-            if ( data.status === 200){
+            if (data.status === 200) {
 
-                window.location.href='/api/login'
-            }else{
+                window.location.href = '/api/login'
+            } else {
                 alert('El email ya existe')
             }
         })
     })
 
-    // -------------------------------------------LOGIN ----------------------------------------------------
-
+// -------------------------------------------LOGIN ----------------------------------------------------
 
 const handleLogin = async (email, password) => {
     const config = {
         method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({email, password})
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password })
     }
     try {
         const response = await fetch(`/api/login/user`, config)
         const data = await response.json()
-        console.log(data)
+        userId = data.user.id
+
         return data.message
     } catch (error) {
         console.log(error)
@@ -58,23 +57,24 @@ elementExists('send') &&
         const password = document.getElementById('password').value;
         handleLogin(email, password).then(data => {
             if (data === 'success') {
+
                 window.location.href = '/api/login/products'
-            }else{
+            } else {
                 alert('Usuario o contraseña incorrecta')
             }
         })
-        
+
     })
 
-elementExists('logout') && 
-    document.getElementById('logout').addEventListener('click', async function(){
+elementExists('logout') &&
+    document.getElementById('logout').addEventListener('click', async function () {
         try {
             const response = await fetch('/api/login/logout')
             const data = await response.json()
             console.log(data)
-            if (data.message === 'LogoutOK'){
+            if (data.message === 'LogoutOK') {
                 window.location.href = '/api/home';
-            }else{
+            } else {
                 alert('logout failed')
             }
         } catch (error) {
@@ -95,93 +95,104 @@ let pagina = 1
 let limite
 
 
-const paginaProductos = () =>{
-    
-    const getProduct =  async (limit = 2, page=1 ) => {
+const paginaProductos = () => {
+
+    const getProduct = async (limit = 2, page = 1) => {
         const product = await fetch(`/api/products/?limit=${limit}&page=${page}`)
         const result = await product.json()
         return result
     }
 
 
-const renderProducts = async () => {
-    const products = await getProduct()
-    
-    if (!products.products.hasPrevPage) {
-        btnAnterior.disabled = true
-    }
-    if (products.products.hasNextPage) {
-        btnSiguiente.disabled = false
-    }
-    if (!products.products.hasNextPage) {
-        btnSiguiente.disabled = true
-    }
-    if (products.products.hasPrevPage) {
-        btnAnterior.disabled = false
-    }
-    
-    render(products)
-}
+    const renderProducts = async () => {
+        const products = await getProduct()
 
-renderProducts()
+        if (!products.products.hasPrevPage) {
+            btnAnterior.disabled = true
+        }
+        if (products.products.hasNextPage) {
+            btnSiguiente.disabled = false
+        }
+        if (!products.products.hasNextPage) {
+            btnSiguiente.disabled = true
+        }
+        if (products.products.hasPrevPage) {
+            btnAnterior.disabled = false
+        }
 
-
-const render = (products) => {
-    containerCards.innerHTML = ''
-    products.products.docs.map(prod => {
-        const item = document.createElement('div')
-        item.classList.add('item')
-        item.innerHTML = 
-        `<div class="card" style="width: 15rem; margin: 5px">
-        <div class="card-body">
-        <h5 class="card-title">${prod.title}</h5>
-        <p class="card-text"> ${prod.description}</p>
-        <p class="card-text">PRECIO: $${prod.price}</p>
-        <p class="card-text">CATEGORIA: ${prod.category}</p>
-        <p class="card-text">Codigo: ${prod.code}</p>
-        </div>
-        <button class="btn btn-primary mx-auto mb-1" id=${prod._id}>Agregar al Carrito</button>
-        </div>`
-        containerCards.appendChild(item)
-        const btnAgregar = document.getElementById(prod._id)
-        btnAgregar.addEventListener('click', () => addCart(prod._id))
+        render(products)
     }
-    )
-}
+
+    renderProducts()
 
 
-const siguiente = async () => { 
-    pagina++
-    pag.innerHTML = pagina
-    const products = await getProduct(2,pagina)
-    console.log(products)
-    if (!products.products.hasNextPage) {
-        btnSiguiente.disabled = true
+    const render = (products) => {
+
+        containerCards.innerHTML = ''
+        products.products.docs.map((prod, index) => {
+            const item = document.createElement('div')
+            item.classList.add('item')
+            item.innerHTML =
+                `<div class="card" style="width: 15rem; margin: 5px">
+                <div class="card-body">
+                <h5 class="card-title">${prod.title}</h5>
+                <p class="card-text"> ${prod.description}</p>
+                <p class="card-text">PRECIO: $${prod.price}</p>
+                <p class="card-text">CATEGORIA: ${prod.category}</p>
+                <p class="card-text">Codigo: ${prod.code}</p>
+                <label for="cantidad">Cantidad:</label>
+                <input type=number class="card-text" min="1" value="1" id="${index}"/>
+                </div>
+                <button class="btn btn-primary mx-auto mb-1" id=${prod._id}>Agregar al Carrito</button>
+                </div>`
+            containerCards.appendChild(item)
+            const cantidad = document.getElementById(index)
+            cantidad.addEventListener('change', (e) => { recibirCantidad(e.target.value) })
+
+            let quantity;
+            const recibirCantidad = (cant) => {
+                quantity = cant
+            }
+            const btnAgregar = document.getElementById(prod._id)
+            btnAgregar.addEventListener('click', () => addCart(prod._id, quantity))
+
+        }
+        )
     }
-    if (products.products.hasPrevPage) {
-        btnAnterior.disabled = false
-    }
-    
-    render(products)
-}
-const anterior = async () => { 
-    pagina--
-    pag.innerHTML = pagina
-    const products = await getProduct(2,pagina)
-    console.log(products)
-    if (!products.products.hasPrevPage) {
-        btnAnterior.disabled = true
-    }
-    if (products.products.hasNextPage) {
-        btnSiguiente.disabled = false
-    }
-    
-    render(products)
-}
 
 
-btnSiguiente.addEventListener('click', siguiente)
-btnAnterior.addEventListener('click', anterior)
+    const siguiente = async () => {
+        pagina++
+        pag.innerHTML = pagina
+        const products = await getProduct(2, pagina)
+        console.log(products)
+        if (!products.products.hasNextPage) {
+            btnSiguiente.disabled = true
+        }
+        if (products.products.hasPrevPage) {
+            btnAnterior.disabled = false
+        }
+
+        render(products)
+    }
+    const anterior = async () => {
+        pagina--
+        pag.innerHTML = pagina
+        const products = await getProduct(2, pagina)
+
+        if (!products.products.hasPrevPage) {
+            btnAnterior.disabled = true
+        }
+        if (products.products.hasNextPage) {
+            btnSiguiente.disabled = false
+        }
+
+        render(products)
+    }
+
+
+    btnSiguiente.addEventListener('click', siguiente)
+    btnAnterior.addEventListener('click', anterior)
 
 }
 elementExists('pag') && paginaProductos()
@@ -192,46 +203,108 @@ elementExists('pag') && paginaProductos()
 
 
 //---------------------------------- CARRITO -------------------------------------------------------
-const getCart = async () =>{
-    const cart = await fetch('http://localhost:8080/api/carts')
-    const data = cart.json()
+
+
+const getUser = async () => {
+    const user = await fetch(`/api/login/user`)
+    const data = await user.json()
     return data
 }
 
+const getCart = async () => {
+    const user = await getUser()
+    const userId = user.user._id
+    const getCartUser = await fetch(`/api/carts/${userId}`)
+    const data = await getCartUser.json()
+    return data
+}
 
-const addCart = async (pid) => {
-    const carrito = await getCart()
-    const cartId = carrito[0]._id
-    
-    try{
-        const addCartProduct = await fetch(`/api/carts/${cartId}/products/${pid}`,{
-            method: 'PUT'
+const addCart = async (pid, quantity) => {
+    console.log(quantity)
+    const carritoUser = await getUser()
+    const cartId = carritoUser.user.cart
+
+    try {
+        const addCartProduct = await fetch(`/api/carts/${cartId}/products/${pid}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                quantity: quantity
+            })
         })
         alert('Producto agregado al carrito')
-    }catch(err){
+    } catch (err) {
         console.log(err)
     }
 
 }
 
+const deleteCart = async (pid) => {
+    const carritoUser = await getUser()
+    const cartId = carritoUser.user.cart
+    try{
+        const deleteCartProduct = await fetch(`/api/carts/${cartId}/products/${pid}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        alert('Producto eliminado del carrito')
+        renderCart()
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+
+// const renderCart = async () => {
+
+//     const productos = await getCart()
+//     console.log(productos)
+//     const list = await productos[0].products.map((prod) => {
+//         return `<div class="card" style="width: 15rem; margin: 5px">
+//                     <div class="card-body">
+//                         <h5 class="card-title">${prod.product.title}</h5>
+//                         <p class="card-text"> ${prod.product.description}</p>
+//                         <p class="card-text">PRECIO: $${prod.product.price}</p>
+//                         <p class="card-text">Cantidad: ${prod.quantity}</p>
+//                         <button class="btn btn-danger mx-auto mb-1" id=${prod.product._id}>Eliminar del Carrito</button>
+//                      </div>
+//                  </div>`
+//         const btnEliminar = document.getElementById(prod.product._id)
+//     })
+//         .join(' ')
+//     containerCart.innerHTML = list
+
+// }
+
 const renderCart = async () => {
-   
     const productos = await getCart()
-    console.log(productos)
-    const list = await productos[0].products.map((prod)=>{
-        return `<div class="card" style="width: 15rem; margin: 5px">
-                    <div class="card-body">
-                        <h5 class="card-title">${prod.product.title}</h5>
-                        <p class="card-text"> ${prod.product.description}</p>
-                        <p class="card-text">PRECIO: $${prod.product.price}</p>
-                        <p class="card-text">CATEGORIA: ${prod.product.category}</p>
-                        <p class="card-text">Codigo: ${prod.product.code}</p>
-                     </div>
-                 </div>`
-    })
-    .join(' ')
-    containerCart.innerHTML = list
-    
+    containerCart.innerHTML = ''
+    await productos[0].products.map((prod, index) => {
+        const item = document.createElement('div')
+        item.classList.add('item')
+        item.innerHTML =
+        `<div class="card" style="width: 15rem; margin: 5px">
+        <div class="card-body">
+            <h5 class="card-title">${prod.product.title}</h5>
+            <p class="card-text"> ${prod.product.description}</p>
+            <p class="card-text">PRECIO: $${prod.product.price}</p>
+            <p class="card-text">Cantidad: ${prod.quantity}</p>
+            <button class="btn btn-danger mx-auto mb-1" id=${prod.product._id}>Eliminar del Carrito</button>
+         </div>
+     </div>`
+           
+        containerCart.appendChild(item)
+
+        const btnEliminar = document.getElementById(prod.product._id)
+        btnEliminar.addEventListener('click', () => deleteCart(prod.product._id))
+
+    }
+    )
 }
 elementExists('containerCart') && renderCart()
 

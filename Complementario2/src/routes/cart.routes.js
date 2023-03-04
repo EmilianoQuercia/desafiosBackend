@@ -15,6 +15,17 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    const {id} = req.params;
+    try{
+        const cart = await cartManager.getCartUser(id)
+        res.send(cart)
+    }
+    catch (err){
+        res.status(500).send(err.message)
+    }
+})
+
 
 router.post('/', async (req, res) => {
     try{
