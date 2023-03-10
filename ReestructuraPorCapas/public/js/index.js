@@ -10,6 +10,11 @@ elementExists('signup') &&
         const password = document.getElementById('password').value;
         const age = document.getElementById('age').value;
 
+        if (firstName === '' || lastName === '' || email === '' || password === '' || age === '') {
+            alert('Todos los campos son obligatorios')
+            return
+        }
+
         const data = { firstName, lastName, email, password, age }
 
         fetch('/api/registro', {
