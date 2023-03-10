@@ -10,7 +10,7 @@ const initializePassport = () => {
     passport.use('register', new LocalStrategy({
         passReqToCallback: true, usernameField: 'email'
     }, async (req, username, password, done) => {
-        const { firstName, lastName, email, age} = req.body;
+        const { firstName, lastName, email, age, rol} = req.body;
         try {
             const user = await userServices.findOne({ email: username })
             if (user) return done(null, false, { message: 'El usuario ya existe' });
@@ -19,7 +19,8 @@ const initializePassport = () => {
                 lastName,
                 email,
                 age,
-                password: createHash(password)
+                password: createHash(password),
+                rol
             }
             const response = await userServices.create(newUser)
             return done(null, response)
@@ -48,7 +49,6 @@ const initializePassport = () => {
         callbackURL: process.env.GITHUB_CALLBACK_URL
     }, async (accessToken, refreshToken, profile, done) => {
         try {
-            console.log(profile)
             const user = await userServices.findOne({ email: profile._json.email })
             if (!user) {
                 const newUser = {

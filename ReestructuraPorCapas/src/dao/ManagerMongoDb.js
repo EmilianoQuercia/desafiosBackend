@@ -5,6 +5,17 @@ import { cartModel } from "../models/cart.model.js";
 
 class ProductManger{
 
+    async getAllProducts() {
+        try {
+            const products = await productModel.find();
+            return products;
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+    
+
     async getProduct(queryList){
         const {query, sort} = queryList
         
