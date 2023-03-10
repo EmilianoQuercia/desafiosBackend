@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from 'passport';
-import registroModel from "../models/registro.model.js";
+import { autentificarRegistro, falloRegistro } from "../controllers/registro.controller.js";
+
 
 const router = Router();
 
@@ -9,12 +10,8 @@ router.get('/', (req, res) => {
 })
 
 
-router.post('/', passport.authenticate('register', {failureRedirect: '/failregister'}), async (req, res) => { res.send({status: 'success', message: 'Usuario creado correctamente'})
-})
+router.post('/', passport.authenticate('register', {failureRedirect: '/failregister'}), autentificarRegistro)
 
-router.get('/failregister', async (req, res) => {
-    console.log('failed Strategy')
-    res.send({error: 'Failed Strategy'})
-})
+router.get('/failregister', falloRegistro)
 
 export default router
