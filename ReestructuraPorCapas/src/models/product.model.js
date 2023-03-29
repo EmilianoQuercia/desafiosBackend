@@ -24,7 +24,11 @@ const productSchema = new mongoose.Schema({
     category: {
         type: String,
         require: true,
-    }
+    },
+    stock: {
+        type: Number,
+        require: true,
+    },
 })
 productSchema.plugin(mongoosePaginate)
 export const productModel = mongoose.model(productCollection, productSchema)

@@ -75,3 +75,13 @@ export const eliminarTodosProductosCarrito = async (req,res)=>{
         req.status(500).send(err.message)
     }
 }
+
+export const createTicket = async (req, res) => {
+    const {uid} = req.params;
+    try {
+        const response = await cartManager.createTicket(uid);
+        res.send(response);
+      } catch (err) {
+        res.status(500).send(err.message);
+      }
+}

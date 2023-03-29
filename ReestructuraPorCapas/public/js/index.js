@@ -49,7 +49,7 @@ const handleLogin = async (email, password) => {
         const response = await fetch(`/api/login/user`, config)
         const data = await response.json()
         userId = data.user.id
-
+        console.log(data)
         return data.message
     } catch (error) {
         console.log(error)
@@ -242,8 +242,9 @@ const addCart = async (pid, quantity) => {
     } catch (err) {
         console.log(err)
     }
-
 }
+
+
 
 const deleteCart = async (pid) => {
     const carritoUser = await getUser()
@@ -267,7 +268,6 @@ const renderCart = async () => {
     const productos = await getCart()
     containerCart.innerHTML = ''
     await productos[0].products.map((prod) => {
-        console.log(prod)
         const item = document.createElement('div')
         item.classList.add('item')
         item.innerHTML =
@@ -288,6 +288,23 @@ const renderCart = async () => {
 
     }
     )
+
+    const ticket = document.getElementById('ticket')
+
+    ticket.addEventListener('click', async () => {
+        const carritoUser = await getUser()
+        const userId = carritoUser.user._id
+        console.log(userId)
+       const response = await fetch(`/api/carts/${userId}/purchase`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        const data = await response.json()
+        console.log(data)
+        alert(`${data}`)
+    })
 }
 elementExists('containerCart') && renderCart()
 
@@ -310,7 +327,7 @@ const paginaAdministrador = () => {
         return result
     }
 
-    const renderProductsAdmin = async() => {
+    const renderProductsAdmin = async () => {
         const products = await getProduct()
         if (!products.products.hasPrevPage) {
             btnAnterior.disabled = true
@@ -356,7 +373,7 @@ const paginaAdministrador = () => {
     const addProduct = async (e) => {
         e.preventDefault()
         const products = await getAllProducts()
-        
+
         const prod = {
             title: document.getElementById('nombre').value,
             description: document.getElementById('descripcion').value,
@@ -386,7 +403,7 @@ const paginaAdministrador = () => {
         })
         alert('Producto agregado')
         renderProductsAdmin()
-        pagina=1
+        pagina = 1
         paginaAdm.innerHTML = pagina
         formulario.reset()
     }
@@ -407,7 +424,7 @@ const paginaAdministrador = () => {
         })
         alert('Producto eliminado')
         renderProductsAdmin()
-        pagina=1
+        pagina = 1
         paginaAdm.innerHTML = pagina
         formulario.reset()
     }

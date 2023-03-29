@@ -7,7 +7,7 @@ import MongoStore from 'connect-mongo';
 import * as dotenv from "dotenv"
 import passport from 'passport';
 
-import initializePassport from './config/passport.config.js';
+import initializePassport from './auth/passport.auth.js';
 import viewsRouter from './routes/views.routes.js'
 import registroRouter from './routes/registro.routes.js'
 import loginRouter from './routes/login.routes.js'

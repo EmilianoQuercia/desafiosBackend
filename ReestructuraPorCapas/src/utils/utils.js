@@ -9,4 +9,10 @@ const isValidPassword = (user,password) =>{
    return bcrypt.compareSync(password, user.password)
 }
 
-export {createHash, isValidPassword}
+const generarId = () => {
+   const random = Math.random().toString(32).substring(2);
+   const fecha = Date.now().toString(32);
+   return random + fecha;
+};
+
+export {createHash, isValidPassword, generarId}
