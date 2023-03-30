@@ -1,8 +1,9 @@
-import ManagerMongoDb from "../dao/ManagerMongoDb.js";
+
+import CartManager from "../dao/Mongo/cart.repository.mongo.js";
 
 
 
-const cartManager = new ManagerMongoDb.CartManager();
+const cartManager = new CartManager()
 
 export const obtenerCarrito = async (req, res) => {
     try{

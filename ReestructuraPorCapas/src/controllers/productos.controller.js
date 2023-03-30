@@ -1,7 +1,8 @@
-import ManagerMongoDb from "../dao/ManagerMongoDb.js";
+
+import ProductManger from "../dao/Mongo/product.repository.Mongo.js";
 
 
-const productManger = new ManagerMongoDb.ProductManger();
+const productManger = new ProductManger();
 
 
 export const obtenerProducto = async (req, res) => {

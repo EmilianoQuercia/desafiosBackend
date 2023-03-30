@@ -145,7 +145,7 @@ const paginaProductos = () => {
                 <p class="card-text"> ${prod.description}</p>
                 <p class="card-text">PRECIO: $${prod.price}</p>
                 <p class="card-text">CATEGORIA: ${prod.category}</p>
-                <p class="card-text">Codigo: ${prod.code}</p>
+                <p class="card-text">Stock: ${prod.stock}</p>
                 <label for="cantidad">Cantidad:</label>
                 <input type=number class="card-text" min="1" value="1" id="${index}"/>
                 </div>
@@ -295,7 +295,7 @@ const renderCart = async () => {
         const carritoUser = await getUser()
         const userId = carritoUser.user._id
         console.log(userId)
-       const response = await fetch(`/api/carts/${userId}/purchase`, {
+        const response = await fetch(`/api/carts/${userId}/purchase`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -303,7 +303,26 @@ const renderCart = async () => {
         })
         const data = await response.json()
         console.log(data)
-        alert(`${data}`)
+        if (data.stock === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No hay stock de esos Productos',
+            })
+            return
+        }
+
+        renderCart()
+        Swal.fire({
+            icon: 'success',
+            title: 'Ticket generado',
+            html: `<p><b>Codigo de ticket:</b> ${data.code}</p>
+            <p><b>Precio total de la Compra:</b> $${data.amount}</p>
+            <p><b>Usuario:</b> ${data.purchaser}</p>
+            <p><b>Fecha de compra:</b> ${data.createdAt}</p> `
+
+        })
+
     })
 }
 elementExists('containerCart') && renderCart()
@@ -361,6 +380,7 @@ const paginaAdministrador = () => {
                 <p class="card-text">PRECIO: $${prod.price}</p>
                 <p class="card-text">CATEGORIA: ${prod.category}</p>
                 <p class="card-text">Codigo: ${prod.code}</p>
+                <p class="card-text">Stock: ${prod.stock}</p>
                 </div>
             
                 </div>`
