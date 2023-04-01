@@ -3,6 +3,8 @@ import cookieParser from 'cookie-parser';
 import { engine } from 'express-handlebars'
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import { Server } from "socket.io";
+import axios from "axios";
 
 import * as dotenv from "dotenv"
 import passport from 'passport';
@@ -14,6 +16,7 @@ import loginRouter from './routes/login.routes.js'
 import productsRoutes from './routes/product.routes.js'
 import cartRoutes from './routes/cart.routes.js'
 import githubRoutes from './routes/github.routes.js'
+import chatRoutes from './routes/chat.routes.js'
 import conexionDB from './database/db.mongoose.js';
 
 dotenv.config();
@@ -22,7 +25,7 @@ const PORT = 8080
 const USER_MONGO = process.env.USER_MONGO
 const PASSWORD_MONGO = process.env.PASSWORD_MONGO
 const DB_MONGO = process.env.DB_MONGO
-const DB_URL= `mongodb+srv://${USER_MONGO}:${PASSWORD_MONGO}@cluster0.zfmpslu.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`
+const DB_URL = `mongodb+srv://${USER_MONGO}:${PASSWORD_MONGO}@cluster0.zfmpslu.mongodb.net/${DB_MONGO}?retryWrites=true&w=majority`
 
 
 app.use(express.json());
@@ -42,7 +45,7 @@ app.use(cookieParser())
 app.use(session({
     store: MongoStore.create({
         mongoUrl: DB_URL,
-        mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true},
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
         ttl: 10000
     }),
     secret: 'codigo-s3cr3t0',
@@ -57,9 +60,26 @@ app.use(passport.session())
 // Conexion a la base de datos con mongoose
 conexionDB()
 
+//websocket
+const socketIo = new Server(server)
+
+socketIo.on('connection', (socket) => {
+    console.log('Nuevo Usuario conectado')
+
+    socket.on('mensaje', (data) => {
+        socketIo.emit('mensajeServidor', data)
+        axios.post('http://localhost:8080/api/chat', data)
+    })
+
+    socket.on('escribiendo', (data) => {
+        socket.broadcast.emit('escribiendo', data)
+    })
+})
+
 app.use('/api/home', viewsRouter)
-app.use('/api/registro', registroRouter )
-app.use('/api/login', loginRouter )
+app.use('/api/registro', registroRouter)
+app.use('/api/login', loginRouter)
 app.use('/api/products', productsRoutes)
 app.use('/api/carts', cartRoutes)
 app.use('/api/sessions', githubRoutes)
+app.use('/api/chat', chatRoutes)
